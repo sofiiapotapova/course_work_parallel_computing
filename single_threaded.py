@@ -22,3 +22,19 @@ def single_pass_indexing(fileglob='**\*.txt'):
 
 
 terms, index = single_pass_indexing()
+
+
+def search(quaery, index):
+    if query in index:
+        pp(index[query])
+
+
+if __name__ == "__main__":
+    pp("Enter search query: (or '0' to exit): ")
+    close = True
+    while close:
+        query = input()
+        if query == "0":
+            close = False
+        else:
+            search(query, index)
