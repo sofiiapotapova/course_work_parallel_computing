@@ -1,5 +1,6 @@
 from glob import glob
 from pprint import pprint as pp
+import time
 
 
 def single_pass_indexing(fileglob='**\*.txt'):
@@ -21,15 +22,15 @@ def single_pass_indexing(fileglob='**\*.txt'):
     return terms, index
 
 
-terms, index = single_pass_indexing()
-
-
-def search(quaery, index):
+def search(query, index):
     if query in index:
         pp(index[query])
 
 
 if __name__ == "__main__":
+    start_time = time.time()
+    terms, index = single_pass_indexing()
+    print(time.time() - start_time)
     pp("Enter search query: (or '0' to exit): ")
     close = True
     while close:
