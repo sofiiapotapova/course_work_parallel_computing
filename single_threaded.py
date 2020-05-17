@@ -31,7 +31,7 @@ if __name__ == "__main__":
     start_time = time.time()
     terms, index = single_pass_indexing()
     print(time.time() - start_time)
-    pp("Enter search query: (or '0' to exit): ")
+    print("Enter search query: (or '0' to exit): ")
     close = True
     while close:
         query = input()
