@@ -22,9 +22,18 @@ def single_pass_indexing(fileglob='**\*.txt'):
     return terms, index
 
 
+def search_phrase(phrase):
+    final_list = []
+    for word in phrase.split():
+        result = search(word, index)
+        final_list += result
+    return set(final_list)
+
+
 def search(query, index):
     if query in index:
-        pp(index[query])
+        # pp(index[query])
+        return index[query]
 
 
 if __name__ == "__main__":
@@ -38,4 +47,5 @@ if __name__ == "__main__":
         if query == "0":
             close = False
         else:
-            search(query, index)
+            response = search_phrase(query)
+            pp(response)

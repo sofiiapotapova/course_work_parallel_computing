@@ -9,20 +9,6 @@ file_names = []
 lock = Lock()
 
 
-# def choose_file(num, max, fileglob='**\*.txt'):
-#     global total_time
-#     num_of_files = 2000
-#     amount = int(num_of_files/max)
-#     thread_files = []
-#     for i in range((num * amount), ((num + 1) * amount)):
-#         thread_files.append(file_names[i])
-#     for txtfile in glob(fileglob, recursive=True):
-#         if txtfile in thread_files:
-#             start_time = time.time()
-#             single_pass_indexing(txtfile, num)
-#             total_time += time.time() - start_time
-
-
 def single_pass_indexing(txtlist, num):
     for txtfile in txtlist:
         with open(txtfile, 'r', encoding='utf-8') as f:
@@ -43,9 +29,18 @@ def single_pass_indexing(txtlist, num):
     return terms, index
 
 
+def search_phrase(phrase):
+    final_list = []
+    for word in phrase.split():
+        result = search(word, index)
+        final_list += result
+    return set(final_list)
+
+
 def search(query, index):
     if query in index:
-        pp(index[query])
+        # pp(index[query])
+        return index[query]
 
 
 if __name__ == "__main__":
@@ -60,9 +55,14 @@ if __name__ == "__main__":
 
     start = time.time()
     for i in range(num_of_threads):
-        p = Thread(target=single_pass_indexing, args=(file_names[(i * amount):((i + 1) * amount)], i))
-        p.start()
-        procs.append(p)
+        if i == (num_of_threads-1):
+            p = Thread(target=single_pass_indexing, args=(file_names[(i * amount):], i))
+            p.start()
+            procs.append(p)
+        else:
+            p = Thread(target=single_pass_indexing, args=(file_names[(i * amount):((i + 1) * amount)], i))
+            p.start()
+            procs.append(p)
 
     for p in procs:
         p.join()
@@ -77,5 +77,5 @@ if __name__ == "__main__":
         if query == "0":
             close = False
         else:
-            search(query, index)
-
+            response = search_phrase(query)
+            pp(response)
