@@ -1,6 +1,5 @@
 from glob import glob
 from pprint import pprint as pp
-import time
 from threading import Lock, Thread
 
 terms = {}
@@ -12,7 +11,6 @@ lock = Lock()
 def single_pass_indexing(txtlist, num):
     for txtfile in txtlist:
         with open(txtfile, 'r', encoding='utf-8') as f:
-            # print(num)
             doc_id = txtfile
             text = f.read().split()
             for term in text:
@@ -39,7 +37,6 @@ def search_phrase(phrase):
 
 def search(query, index):
     if query in index:
-        # pp(index[query])
         return index[query]
 
 
@@ -53,7 +50,6 @@ if __name__ == "__main__":
         with open(txtfile, 'r', encoding='utf-8') as f:
             file_names.append(txtfile)
 
-    start = time.time()
     for i in range(num_of_threads):
         if i == (num_of_threads-1):
             p = Thread(target=single_pass_indexing, args=(file_names[(i * amount):], i))
@@ -66,9 +62,8 @@ if __name__ == "__main__":
 
     for p in procs:
         p.join()
-    total = time.time() - start
 
-    print(total)
+    print("Index is done.")
 
     print("Enter search query: (or '0' to exit): ")
     close = True
